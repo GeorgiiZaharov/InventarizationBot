@@ -1,8 +1,9 @@
-from NamedEntitiyRecognizer import NameEntityRecognition
+from .NamedEntityRecognizer import NamedEntityRecognizer
 import re
 
-class RegexNamedEntityRecognizer(NameEntityRecognition):
-    async def get_storage_place(self, data: str) -> str:
+class RegexNamedEntityRecognizer(NamedEntityRecognizer):
+    @staticmethod
+    async def get_location(data: str) -> str:
         """
         Метод для извлечения номера кабинета из строки.
 
@@ -17,17 +18,18 @@ class RegexNamedEntityRecognizer(NameEntityRecognition):
             str: Номер кабинета или 'Null', если номер не найден.
         """
 
-        cabinet_pattern = re.compile(r'\b((?:(?:к\.|каб\.)\s*)?(\d{3}[-]?[А-ЯA-Zа-яa-z]?))\b', re.IGNORECASE)
+        cabinet_pattern = re.compile(r'\b((?:(?:к\.|каб\.)\s*)+(\d{3}[-]?[А-ЯA-Zа-яa-z]?))', re.IGNORECASE)
         find_cabinet_number = re.findall(cabinet_pattern, data)
 
         # Если найден номер кабинета, возвращаем его.
         # Если нет, возвращаем 'Null'.
         if find_cabinet_number:
             cabinet_number = find_cabinet_number[0][1]
-            return cabinet_number
+            return cabinet_number.strip()
         return 'Null'
 
-    async def get_responsible_person(self, data: str) -> str:
+    @staticmethod
+    async def get_responsible_person(data: str) -> str:
         """
         Метод для извлечения имени ответственного лица из строки.
 
@@ -46,4 +48,4 @@ class RegexNamedEntityRecognizer(NameEntityRecognition):
 
         # Если найдено имя, возвращаем его. Если нет, возвращаем 'Null'.
         person = person_match.group(0) if person_match else 'Null'
-        return person
+        return person.strip()

@@ -1,8 +1,8 @@
 from abc import ABC, abstractmethod
 
-class NameEntityRecognition(ABC):    
+class NamedEntityRecognizer(ABC):    
     @abstractmethod
-    async def get_storage_place(self, data: str) -> str:
+    async def get_location(data: str) -> str:
         """
         Извлечение места хранения из текста.
 
@@ -22,7 +22,7 @@ class NameEntityRecognition(ABC):
         pass
 
     @abstractmethod
-    async def get_responsible_person(self, data: str) -> str:
+    async def get_responsible_person(data: str) -> str:
         """
         Извлечение информации о ответственном лице из текста.
 

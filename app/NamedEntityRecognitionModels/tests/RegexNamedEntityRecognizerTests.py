@@ -3,12 +3,9 @@ import asyncio
 from ..RegexNamedEntityRecognizer import RegexNamedEntityRecognizer
 
 class TestRegexNamedEntityRecognizer(unittest.TestCase):
-    
-    def setUp(self):
-        # Создаем экземпляр объекта перед каждым тестом
-        self.recognizer = RegexNamedEntityRecognizer()
+    def test_get_location(self):
+        recognizer = RegexNamedEntityRecognizer()
 
-    def test_get_storage_place(self):
         # Тестируем извлечение номера кабинета
         data1 = "к.301a Кравченко А.В. расписка"
         data2 = "каб.128 интернет"
@@ -19,13 +16,13 @@ class TestRegexNamedEntityRecognizer(unittest.TestCase):
         data7 = "8960123 просто цифры"
                 
         # Проверяем правильный результат для разных вариантов
-        result1 = asyncio.run(self.recognizer.get_storage_place(data1))
-        result2 = asyncio.run(self.recognizer.get_storage_place(data2))
-        result3 = asyncio.run(self.recognizer.get_storage_place(data3))
-        result4 = asyncio.run(self.recognizer.get_storage_place(data4))
-        result5 = asyncio.run(self.recognizer.get_storage_place(data5))
-        result6 = asyncio.run(self.recognizer.get_storage_place(data6))
-        result7 = asyncio.run(self.recognizer.get_storage_place(data7))
+        result1 = asyncio.run(recognizer.get_location(data1))
+        result2 = asyncio.run(recognizer.get_location(data2))
+        result3 = asyncio.run(recognizer.get_location(data3))
+        result4 = asyncio.run(recognizer.get_location(data4))
+        result5 = asyncio.run(recognizer.get_location(data5))
+        result6 = asyncio.run(recognizer.get_location(data6))
+        result7 = asyncio.run(recognizer.get_location(data7))
 
         
         self.assertEqual(result1, "301a")  # Ожидаем номер кабинета "301a"
@@ -40,19 +37,21 @@ class TestRegexNamedEntityRecognizer(unittest.TestCase):
 
     
     def test_get_responsible_person(self):
+        recognizer = RegexNamedEntityRecognizer()
+
         # Тестируем извлечение ответственного лица
         data1 = "к.301 Ленин А.В. расписка"
         data2 = "Иванов И.И."
         data3 = "не указано ответственное лицо"
         data4 = "Иванов И. И."
-        data5 = "И.И.Иванов Надо доработать!!" #TODO
+        data5 = "И.И.Иванов надо доработать!!" #TODO
         
         # Проверяем правильный результат для разных вариантов
-        result1 = asyncio.run(self.recognizer.get_responsible_person(data1))
-        result2 = asyncio.run(self.recognizer.get_responsible_person(data2))
-        result3 = asyncio.run(self.recognizer.get_responsible_person(data3))
-        result4 = asyncio.run(self.recognizer.get_responsible_person(data4))
-        result5 = asyncio.run(self.recognizer.get_responsible_person(data5))
+        result1 = asyncio.run(recognizer.get_responsible_person(data1))
+        result2 = asyncio.run(recognizer.get_responsible_person(data2))
+        result3 = asyncio.run(recognizer.get_responsible_person(data3))
+        result4 = asyncio.run(recognizer.get_responsible_person(data4))
+        result5 = asyncio.run(recognizer.get_responsible_person(data5))
 
         
         self.assertEqual(result1, "Ленин А.В.")  # Ожидаем ответственного "Ленин А.В."
